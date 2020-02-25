@@ -24,11 +24,14 @@ RUN \
     Start-Process -FilePath "$env:TEMP/git.exe" -ArgumentList '/VERYSILENT', '/NORESTART', '/NOCANCEL', '/SP-', '/DIR="c:/git"' -PassThru | Wait-Process; \
     dir "$env:TEMP" | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
 
+# 
+COPY scripts c:\\scripts
+RUN C:\\scripts\\install-plugins.ps1 "c:\\scripts\\plugins.txt"
+
 # for main web interface:
 EXPOSE 8080
 
 # will be used by attached slave agents:
 EXPOSE 50000
 
-# CMD [ "powershell", "& java.exe -Djenkins.install.runSetupWizard=false -jar 'c:\\jenkins.war'" ]
 CMD [ "powershell", "&'java.exe' --% -Djenkins.install.runSetupWizard=false -jar c:/jenkins.war" ]
