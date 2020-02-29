@@ -24,7 +24,10 @@ RUN \
     Start-Process -FilePath "$env:TEMP/git.exe" -ArgumentList '/VERYSILENT', '/NORESTART', '/NOCANCEL', '/SP-', '/DIR="c:/git"' -PassThru | Wait-Process; \
     dir "$env:TEMP" | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
 
-# 
+
+# jenkins setup scripts
+COPY groovy c:\\jenkins\\init.groovy.d
+
 COPY scripts c:\\scripts
 RUN C:\\scripts\\install-plugins.ps1 "c:\\scripts\\plugins.txt"
 
